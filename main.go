@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/muroya2355/denki/controller"
+
 )
 
 // メイン関数
@@ -11,9 +12,6 @@ func main() {
 
 	// マルチプレクサの生成
 	mux := http.NewServeMux()
-
-	// ルートURL をハンドラ関数にリダイレクト
-	//mux.HandleFunc("/", index)
 
 	// ハンドラ関数の登録
 	mux.HandleFunc("/login", controller.Login)               // ログインページの表示

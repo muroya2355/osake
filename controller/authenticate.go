@@ -26,7 +26,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 	user := model.SelectByID(r.PostForm["loginid"][0])
 
 	// 入力されたログインIDのユーザが存在するか、パスワードが一致するか確認
-	if user.Loginid != "" && user.Password == r.PostForm["password"][0] {
+	if user.Userid != "" && user.Password == r.PostForm["password"][0] {
 		// 認証に成功した場合
 
 		// ログイン成功画面テンプレートを解析
