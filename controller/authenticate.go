@@ -4,21 +4,33 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/muroya2355/denki/model"
 )
 
-// POST authenticate : ユーザの認証
-func authenticate(w http.ResponseWriter, r *http.Request) {
+// Login : GET ログインページの表示
+func Login(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles("view/login.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+	tmpl.Execute(w, nil)
+}
+
+// Authenticate : POST ユーザの認証
+func Authenticate(w http.ResponseWriter, r *http.Request) {
 	// リクエストの解析
 	r.ParseForm()
 
-	if true {
+	// ログインIDを基にユーザを検索
+	user := model.SelectByID(r.PostForm["loginid"][0])
+
+	// 入力されたログインIDのユーザが存在するか、パスワードが一致するか確認
+	if user.Loginid != "" && user.Password == r.PostForm["password"][0] {
 		// 認証に成功した場合
 
-		// ユーザ構造体 user の生成
-		user := User{r.PostForm["loginid"][0], r.PostForm["password"][0]}
-
 		// ログイン成功画面テンプレートを解析
-		tmpl, err := template.ParseFiles("templates/loginsuccessful.html")
+		tmpl, err := template.ParseFiles("view/loginsuccessful.html")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -32,7 +44,7 @@ func authenticate(w http.ResponseWriter, r *http.Request) {
 
 		// 認証に失敗した場合
 		// ログイン画面に遷移
-		tmpl, err := template.ParseFiles("templates/login.html")
+		tmpl, err := template.ParseFiles("view/login.html")
 		if err != nil {
 			log.Fatal(err)
 		}

@@ -1,19 +1,10 @@
 package main
 
 import (
-	"html/template"
-	"log"
 	"net/http"
-)
 
-// GET login : ログインページの表示
-func login(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("templates/login.html")
-	if err != nil {
-		log.Fatal(err)
-	}
-	tmpl.Execute(w, nil)
-}
+	"github.com/muroya2355/denki/controller"
+)
 
 // メイン関数
 func main() {
@@ -25,8 +16,8 @@ func main() {
 	//mux.HandleFunc("/", index)
 
 	// ハンドラ関数の登録
-	mux.HandleFunc("/login", login)               // ログインページの表示
-	mux.HandleFunc("/authenticate", authenticate) // ログイン認証
+	mux.HandleFunc("/login", controller.Login)               // ログインページの表示
+	mux.HandleFunc("/authenticate", controller.Authenticate) // ログイン認証
 
 	// サーバの生成、マルギプレクサの登録
 	server := &http.Server{
