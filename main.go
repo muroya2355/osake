@@ -4,11 +4,13 @@ import (
 	"net/http"
 
 	"github.com/muroya2355/denki/controller"
-
+	"github.com/muroya2355/denki/utils"
 )
 
 // メイン関数
 func main() {
+
+	utils.Init()
 
 	// マルチプレクサの生成
 	mux := http.NewServeMux()

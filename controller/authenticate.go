@@ -19,6 +19,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 // Authenticate : POST ユーザの認証
 func Authenticate(w http.ResponseWriter, r *http.Request) {
+
 	// リクエストの解析
 	r.ParseForm()
 

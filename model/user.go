@@ -2,21 +2,22 @@ package model
 
 import (
 	"log"
+
 	"github.com/muroya2355/denki/utils"
 )
 
 // User : ログインユーザ
 type User struct {
-	Userid  string
+	Userid   string
 	Password string
 }
 
 // SelectByID : ログインIDを基にユーザを検索する
 func SelectByID(loginid string) User {
-	
+
 	// SQL 文の構築
 	sql := "SELECT super_visor_id, super_visor_password FROM SUPER_VISOR WHERE super_visor_id = $1;"
-	
+
 	// PreparedStatement の作成
 	pstatement, err := utils.Db.Prepare(sql)
 	if err != nil {
@@ -35,4 +36,3 @@ func SelectByID(loginid string) User {
 	// 検索した user を返却
 	return user
 }
-
