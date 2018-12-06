@@ -1,0 +1,12 @@
+# docker-compose のバージョン
+version: '3'
+
+# 各コンテナの情報
+services:
+
+  # mysql サービス
+  mysql:
+    # コンテナの名前
+    
+  # golang アプリケーション
+denki:
