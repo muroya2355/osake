@@ -3,7 +3,7 @@ package model
 import (
 	"log"
 
-	"github.com/muroya2355/denki/utils"
+	"github.com/muroya2355/denki/go/utils"
 )
 
 // User : ログインユーザ
@@ -23,7 +23,6 @@ func SelectByID(loginid string) User {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	// 検索結果格納先の User 構造体を作成
 	var user User
 

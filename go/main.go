@@ -1,29 +1,31 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
-	"github.com/muroya2355/denki/controller"
-	"github.com/muroya2355/denki/utils"
+	"github.com/julienschmidt/httprouter"
+
+	"github.com/muroya2355/denki/go/controller"
+	"github.com/muroya2355/denki/go/utils"
 )
 
 // メイン関数
 func main() {
 
-	utils.Init()
+	// DB 接続用ハンドラの宣言・初期化
+	utils.DbInit()
 
-	// マルチプレクサの生成
-	mux := http.NewServeMux()
+	// HTTPルーターを初期化
+	router := httprouter.New()
 
 	// ハンドラ関数の登録
-	mux.HandleFunc("/login", controller.Login)               // ログインページの表示
-	mux.HandleFunc("/authenticate", controller.Authenticate) // ログイン認証
+	router.GET("/login", controller.Login)                // ログインページの表示
+	router.POST("/authenticate", controller.Authenticate) // ログイン認証
 
 	// サーバの生成、マルギプレクサの登録
-	server := &http.Server{
-		Addr:    "127.0.0.1:8080",
-		Handler: mux,
+	err := http.ListenAndServe(":8080", router)
+	if err != nil {
+		log.Fatal(err)
 	}
-
-	server.ListenAndServe()
 }

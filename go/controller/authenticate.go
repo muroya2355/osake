@@ -5,11 +5,13 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/muroya2355/denki/model"
+	"github.com/julienschmidt/httprouter"
+
+	"github.com/muroya2355/denki/go/model"
 )
 
 // Login : GET ログインページの表示
-func Login(w http.ResponseWriter, r *http.Request) {
+func Login(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	tmpl, err := template.ParseFiles("view/login.html")
 	if err != nil {
 		log.Fatal(err)
@@ -18,7 +20,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 }
 
 // Authenticate : POST ユーザの認証
-func Authenticate(w http.ResponseWriter, r *http.Request) {
+func Authenticate(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	// リクエストの解析
 	r.ParseForm()
