@@ -1,6 +1,10 @@
 FROM golang:latest
 
-WORKDIR /go/src/denki
-ADD . /go/src/denki
+WORKDIR /go/src/github.com/muroya2355/denki/go/
+ADD ./go .
 
-RUN go build
+RUN go get github.com/julienschmidt/httprouter
+RUN go get github.com/lib/pq
+
+
+

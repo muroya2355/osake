@@ -1,9 +1,9 @@
 -- 事前作業：ユーザ／データベースの作成、データベース切替
 -- スーパユーザでログイン (> psql -U postgres)
-CREATE ROLE denki_user WITH LOGIN PASSWORD 'denki_user';
-CREATE DATABASE denki;
-GRANT ALL PRIVILEGES ON DATABASE denki TO denki_user;
-\c denki;
+-- CREATE ROLE denki_user WITH LOGIN PASSWORD 'denki_user';
+-- CREATE DATABASE denki;
+-- GRANT ALL PRIVILEGES ON DATABASE denki TO denki_user;
+-- \c denki;
 
 -- テーブルの作成
 -- \i [[filepath]]

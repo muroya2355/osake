@@ -1,55 +1,58 @@
-# docker-compose ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³
+# docker-compose ‚Ìƒo[ƒWƒ‡ƒ“
 version: '2'
 
-# å„ã‚³ãƒ³ãƒ†ãƒŠã®æƒ…å ±
+# ŠeƒRƒ“ƒeƒi‚Ìî•ñ
 services:
 
-  # Data-Volume ã‚³ãƒ³ãƒ†ãƒŠ
+  # Data-Volume ƒRƒ“ƒeƒi
   postgres-data:
-    # Dockerfile ã‚’æŒ‡å®š
+    # Dockerfile ‚ğw’è
     build:
       context: .
       dockerfile: ./docker/postgres-data/Dockerfile
-    # ãƒ›ã‚¹ãƒˆOSã®ãƒ‡ãƒ¼ã‚¿å…±æœ‰å…ˆ
+    # ƒzƒXƒgOS‚Ìƒf[ƒ^‹¤—Læ
     volumes:
       - ~/postgres/data
-    # ã‚³ãƒ³ãƒ†ãƒŠå
+    # ƒRƒ“ƒeƒi–¼
     container_name: postgres_datastore
 
-  # postgres ã‚µãƒ¼ãƒ“ã‚¹
+  # postgres ƒT[ƒrƒX
   postgres:
-    # ã‚³ãƒ³ãƒ†ãƒŠã®åå‰
+    # ƒRƒ“ƒeƒi‚Ì–¼‘O
     container_name: postgres
-    # Dockerfile ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹
+    # Dockerfile ‚ÌƒfƒBƒŒƒNƒgƒŠƒpƒX
     build:
       context: .
       dockerfile: ./docker/postgres/Dockerfile
-    # å¤–éƒ¨ã«å…¬é–‹ã™ã‚‹ãƒãƒ¼ãƒˆ
+    # ŠO•”‚ÉŒöŠJ‚·‚éƒ|[ƒg
     ports:
       - "15432:5432"
-    # postgres è¨­å®š
+    # postgres İ’è
     environment:
       - POSTGRES_USER=denki_user
       - POSTGRES_PASSWORD=denki_user
-    # postgres-data ã‚³ãƒ³ãƒ†ãƒŠã‚’postgresã‚³ãƒ³ãƒ†ãƒŠã«ãƒã‚¦ãƒ³ãƒˆ
+    # postgres-data ƒRƒ“ƒeƒi‚ğpostgresƒRƒ“ƒeƒi‚Éƒ}ƒEƒ“ƒg
     volumes_from:
       - postgres-data
 
-  # golang ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³
+  # golang ƒAƒvƒŠƒP[ƒVƒ‡ƒ“
   denki:
     container_name: denki
-    # postgres ã®ã‚³ãƒ³ãƒ†ãƒŠã¨ãƒªãƒ³ã‚¯
+    # postgres ‚ÌƒRƒ“ƒeƒi‚ÆƒŠƒ“ƒN
     links:
       - postgres
-    # Dockerfile ã‚’æŒ‡å®š
+    # Dockerfile ‚ğw’è
     build:
       context: .
       dockerfile: ./docker/golang/Dockerfile
     ports:
       - "18080:8080"
-    # ${GOPATH}/src ã‚’ãƒã‚¦ãƒ³ãƒˆ
+    # GOPATH‚ğw’è
+    environment:
+      - GOPATH=/go
+    # ${GOPATH}/src ‚ğƒ}ƒEƒ“ƒg
     volumes:
-      - ./go:/go/src/denki/
-    # docker-compose run å®Ÿè¡Œæ™‚ã«å®Ÿè¡Œã•ã‚Œã‚‹ã‚³ãƒãƒ³ãƒ‰
+      - ./go:/go/src/github.com/muroya2355/denki/go/
+    # docker-compose run Às‚ÉÀs‚³‚ê‚éƒRƒ}ƒ“ƒh
     command: go run main.go
     
