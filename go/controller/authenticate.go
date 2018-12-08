@@ -7,7 +7,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
-	"github.com/muroya2355/denki/go/model"
+	"denki/go/model"
 )
 
 // Login : GET ログインページの表示
@@ -32,16 +32,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	if user.Userid != "" && user.Password == r.PostForm["password"][0] {
 		// 認証に成功した場合
 
-		// ログイン成功画面テンプレートを解析
-		tmpl, err := template.ParseFiles("view/loginsuccessful.html")
-		if err != nil {
-			log.Fatal(err)
-		}
-		// ログイン成功画面に user を渡して遷移
-		err = tmpl.Execute(w, user)
-		if err != nil {
-			log.Fatal(err)
-		}
+		http.Redirect(w, r, "/goodslist", 303)
 
 	} else {
 

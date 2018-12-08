@@ -1,58 +1,58 @@
-# docker-compose ‚Ìƒo[ƒWƒ‡ƒ“
+# docker-compose ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³
 version: '2'
 
-# ŠeƒRƒ“ƒeƒi‚Ìî•ñ
+# å„ã‚³ãƒ³ãƒ†ãƒŠã®æƒ…å ±
 services:
 
-  # Data-Volume ƒRƒ“ƒeƒi
+  # Data-Volume ã‚³ãƒ³ãƒ†ãƒŠ
   postgres-data:
-    # Dockerfile ‚ğw’è
+    # Dockerfile ã‚’æŒ‡å®š
     build:
       context: .
       dockerfile: ./docker/postgres-data/Dockerfile
-    # ƒzƒXƒgOS‚Ìƒf[ƒ^‹¤—Læ
+    # ãƒ›ã‚¹ãƒˆOSã®ãƒ‡ãƒ¼ã‚¿å…±æœ‰å…ˆ
     volumes:
       - ~/postgres/data
-    # ƒRƒ“ƒeƒi–¼
+    # ã‚³ãƒ³ãƒ†ãƒŠå
     container_name: postgres_datastore
 
-  # postgres ƒT[ƒrƒX
+  # postgres ã‚µãƒ¼ãƒ“ã‚¹
   postgres:
-    # ƒRƒ“ƒeƒi‚Ì–¼‘O
+    # ã‚³ãƒ³ãƒ†ãƒŠã®åå‰
     container_name: postgres
-    # Dockerfile ‚ÌƒfƒBƒŒƒNƒgƒŠƒpƒX
+    # Dockerfile ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹
     build:
       context: .
       dockerfile: ./docker/postgres/Dockerfile
-    # ŠO•”‚ÉŒöŠJ‚·‚éƒ|[ƒg
+    # å¤–éƒ¨ã«å…¬é–‹ã™ã‚‹ãƒãƒ¼ãƒˆ
     ports:
       - "15432:5432"
-    # postgres İ’è
+    # postgres è¨­å®š
     environment:
       - POSTGRES_USER=denki_user
       - POSTGRES_PASSWORD=denki_user
-    # postgres-data ƒRƒ“ƒeƒi‚ğpostgresƒRƒ“ƒeƒi‚Éƒ}ƒEƒ“ƒg
+    # postgres-data ã‚³ãƒ³ãƒ†ãƒŠã‚’postgresã‚³ãƒ³ãƒ†ãƒŠã«ãƒã‚¦ãƒ³ãƒˆ
     volumes_from:
       - postgres-data
 
-  # golang ƒAƒvƒŠƒP[ƒVƒ‡ƒ“
+  # golang ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³
   denki:
     container_name: denki
-    # postgres ‚ÌƒRƒ“ƒeƒi‚ÆƒŠƒ“ƒN
+    # postgres ã®ã‚³ãƒ³ãƒ†ãƒŠã¨ãƒªãƒ³ã‚¯
     links:
       - postgres
-    # Dockerfile ‚ğw’è
+    # Dockerfile ã‚’æŒ‡å®š
     build:
       context: .
       dockerfile: ./docker/golang/Dockerfile
     ports:
       - "18080:8080"
-    # GOPATH‚ğw’è
+    # GOPATHã‚’æŒ‡å®š
     environment:
       - GOPATH=/go
-    # ${GOPATH}/src ‚ğƒ}ƒEƒ“ƒg
+    # ${GOPATH}/src ã‚’ãƒã‚¦ãƒ³ãƒˆ
     volumes:
-      - ./go:/go/src/github.com/muroya2355/denki/go/
-    # docker-compose run Às‚ÉÀs‚³‚ê‚éƒRƒ}ƒ“ƒh
+      - ./go:/go/src/denki/go/
+    # docker-compose run å®Ÿè¡Œæ™‚ã«å®Ÿè¡Œã•ã‚Œã‚‹ã‚³ãƒãƒ³ãƒ‰
     command: go run main.go
     

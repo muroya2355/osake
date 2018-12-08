@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>商品一覧／検索画面</title>
+</head>
+<body>
+    <h1>商品一覧／検索画面</h1>
+	<form action="/searchgoods" method="post">
+		商品名
+		<input type="text" name="goodsname"/>
+		<input type="submit" value="検索"/>
+
+	</form>
+	<div>
+		<table>
+			{{ range $name, $goods := . }}
+			<p>{{ $goods.GoodsId }} {{ $goods.GoodsName }}</p>
+		{{ end }}
+		</table>
+	</div>
+</body>
+</html>

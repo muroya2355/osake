@@ -3,7 +3,7 @@ package model
 import (
 	"log"
 
-	"github.com/muroya2355/denki/go/utils"
+	"denki/go/utils"
 )
 
 // User : ログインユーザ
