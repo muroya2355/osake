@@ -6,6 +6,7 @@ import (
 	"denki/go/utils"
 )
 
+// Goods : 商品情報
 type Goods struct {
 	GoodsID        int
 	GoodsName      string
@@ -21,6 +22,7 @@ type Goods struct {
 	MakerID        int
 }
 
+// GetGoods : id より商品情報を取得
 func GetGoods(id int) Goods {
 
 	// SQL 文の構築

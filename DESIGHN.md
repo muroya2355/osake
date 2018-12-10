@@ -59,8 +59,6 @@
 1. パスワードが正当か確認
 1. 正当な場合はログイン成功画面を表示、失敗の場合は再度ログイン画面を表示
 
-* login.html -> POST /authenticate -> loginsuccessful.html
-
 ## 商品検索／一覧表示機能
 
 ## 商品追加機能
