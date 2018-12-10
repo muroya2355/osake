@@ -5,19 +5,64 @@
 	<title>商品一覧／検索画面</title>
 </head>
 <body>
-    <h1>商品一覧／検索画面</h1>
-	<form action="/searchgoods" method="post">
-		商品名
-		<input type="text" name="goodsname"/>
-		<input type="submit" value="検索"/>
-
-	</form>
+	<h1>商品一覧／検索画面</h1>
+	<div style="display:inline-flex">
+		<form action="/searchgoods" method="post">
+			商品名
+			<input type="text" name="goodsname"/>
+			<input type="submit" value="検索"/>
+		</form>
+		&nbsp;
+		<form action="/searchgoods" method="post">
+			<input type="hidden" name="goodsname" value="">
+			<input type="submit" value="一覧"/>
+		</form>
+	</div>
 	<div>
-		<table>
-			{{ range $name, $goods := . }}
-			<p>{{ $goods.GoodsId }} {{ $goods.GoodsName }}</p>
+		<form action="/inputgoods" method="get">
+			<input type="submit" value="追加">
+		</form>
+	</div>
+	<div>
+		{{ if . }}
+		<table border="1">
+			<tr>
+				<th>商品ID</th>
+				<th>商品名</th>
+				<th>分類</th>
+				<th>メーカー</th>
+				<th>型番</th>
+				<th>販売価格</th>
+				<th>仕入れ値</th>
+				<th>在庫</th>
+				<th>削除フラグ</th>
+				<th></th>
+			</tr>
+		{{ range $name, $goods := . }}
+			<tr>
+				<td>{{ $goods.GoodsID }}</td>
+				<td>{{ $goods.GoodsName }}</td>
+				<td>{{ $goods.ClassName }}</td>
+				<td>{{ $goods.MakerName }}</td>
+				<td>{{ $goods.Specs }}</td>
+				<td>{{ $goods.IndicatedPrice }}</td>
+				<td>{{ $goods.PurchasePrice }}</td>
+				<td>{{ $goods.Stock }}</td>
+				{{ if $goods.Deleted }}
+				<td>削除</td>
+				{{ else }}
+				<td></td>
+				{{ end }}
+				<td>
+					<form action="/goodsdetail" method="post">
+						<input type="hidden" name="goodsid" value={{$goods.GoodsID}}>
+						<input type="submit" value="詳細">
+					</form>
+				</td>
+			</tr>
 		{{ end }}
 		</table>
+		{{ end }}
 	</div>
 </body>
 </html>

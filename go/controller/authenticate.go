@@ -29,10 +29,10 @@ func Authenticate(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	user := model.SelectByID(r.PostForm["loginid"][0])
 
 	// 入力されたログインIDのユーザが存在するか、パスワードが一致するか確認
-	if user.Userid != "" && user.Password == r.PostForm["password"][0] {
+	if user.UserID != "" && user.Password == r.PostForm["password"][0] {
 		// 認証に成功した場合
 
-		http.Redirect(w, r, "/goodslist", 303)
+		http.Redirect(w, r, "/default", 301)
 
 	} else {
 

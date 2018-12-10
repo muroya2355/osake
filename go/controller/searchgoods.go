@@ -10,8 +10,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-// GoodsList : Goods 検索画面の表示
-func GoodsList(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+// GoodsDefault : Goods 検索画面の表示
+func GoodsDefault(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	tmpl, err := template.ParseFiles("view/goodslist.html")
 	if err != nil {
 		log.Fatal(err)
@@ -28,6 +28,7 @@ func SearchGoods(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	// 検索文字列から Goods を検索
 	goodsList := model.SearchGoods(r.PostForm["goodsname"][0])
 
+	// 商品一覧画面に遷移
 	tmpl, err := template.ParseFiles("view/goodslist.html")
 	if err != nil {
 		log.Fatal(err)

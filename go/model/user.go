@@ -8,7 +8,7 @@ import (
 
 // User : ログインユーザ
 type User struct {
-	Userid   string
+	UserID   string
 	Password string
 }
 
@@ -27,7 +27,7 @@ func SelectByID(loginid string) User {
 	var user User
 
 	// pstatement のパラメータに loginid を埋め込み実行、検索結果を user のフィールドに埋め込む
-	err = pstatement.QueryRow(loginid).Scan(&user.Userid, &user.Password)
+	err = pstatement.QueryRow(loginid).Scan(&user.UserID, &user.Password)
 	if err != nil {
 		log.Fatal(err)
 	}

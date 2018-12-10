@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>商品入力画面</title>
+</head>
+<body>
+	<h1>商品入力画面</h1>
+	<div>
+		<form action="/addgoods" method="post">
+			<table>
+				<tr>
+					<td>商品名</td>
+					<td><input type="text" name="goodsname"></td>
+				</tr>
+				<tr>
+					<td>分類</td>
+					<td>
+						<select name="classid">
+						{{ range $index, $class := .Classes }}
+							<option value={{ $class.ClassID }}>{{ $class.ClassName }}</option>
+						{{ end }}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>メーカー</td>
+					<td>
+						<select name="makerid">
+						{{ range $index, $maker := .Makers }}
+							<option value={{ $maker.MakerID }}>{{ $maker.MakerName }}</option>
+						{{ end }}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>型番</td>
+					<td><input type="text" name="modelnumber"></td>
+				</tr>
+				<tr>
+					<td>スペック</td>
+					<td><input type="text" name="specs"></td>
+				</tr>
+				<tr>
+					<td>販売価格</td>
+					<td><input type="text" name="indicatedprice"></td>
+				</tr>
+				<tr>
+					<td>仕入れ値</td>
+					<td><input type="text" name="purchaseprice"></td>
+				</tr>
+				<tr>
+					<td>在庫</td>
+					<td><input type="text" name="stock"></td>
+				</tr>
+				<tr>
+					<td>削除フラグ</td>
+					<td>
+						<select name="isdeleted">
+							<option value="false"></option>
+							<option value="true">削除</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="追加"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>
