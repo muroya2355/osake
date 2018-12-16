@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM golang:1.9
 
 WORKDIR /go/src/denki/go/
 ADD ./go .

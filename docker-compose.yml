@@ -1,27 +1,28 @@
+# docker-compose build
+# docker-compose up -d
+
 # docker-compose のバージョン
 version: '2'
 
 # 各コンテナの情報
 services:
 
-  # Data-Volume コンテナ
-  postgres-data:
-    # コンテナ名
-    container_name: postgres_data
-    # Dockerfile を指定
-    build:
-      context: .
-      dockerfile: ./docker/postgres-data/Dockerfile
-    # ホストOSのデータ共有先
-     volumes:
-      - ~/postgres/data
+#  # Data-Volume コンテナ
+#  postgres-data:
+#    # コンテナ名
+#    container_name: postgres-data
+#    # Dockerfile を指定
+#    build:
+#     context: .
+#     dockerfile: ./docker/postgres-data/Dockerfile
+#    # ホストOSのデータ共有先
+#    volumes:
+#      - .:/var/lib/postgres
 
   # postgres サービス
   postgres:
     # コンテナの名前
     container_name: postgres
-    links:
-      - postgres-data
     # Dockerfile のディレクトリパス
     build:
       context: .
@@ -33,17 +34,16 @@ services:
     environment:
       - POSTGRES_USER=denki_user
       - POSTGRES_PASSWORD=denki_user
-      - POSTGRES_DATABASE=denki
-    # postgres-data コンテナをpostgresコンテナにマウント
-    volumes_from:
-      - postgres-data
+      - POSTGRES_DB=denki
+#    # postgres-data コンテナをpostgresコンテナにマウント
+#    volumes_from:
+#      - postgres-data
 
   # golang アプリケーション
   denki:
     container_name: denki
     # postgres のコンテナとリンク
-    links:
-      - postgres-data
+    depends_on:
       - postgres
     # Dockerfile を指定
     build:
