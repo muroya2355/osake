@@ -5,21 +5,45 @@ import (
 	"log"
 	"net/http"
 
-	"denki/go/model"
+	"github.com/muroya2355/osake/go/utils"
+
+	"github.com/muroya2355/osake/go/model"
 
 	"github.com/julienschmidt/httprouter"
 )
 
-// GoodsDefault : Goods 検索画面の表示
-func GoodsDefault(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+// GoodsList : GETメソッド, Goods 検索画面の表示
+func GoodsList(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+
+	// クッキーの確認
+	utils.CheckCookie(w, r)
+
+	// /list へリダイレクトした場合、検索パラメータはない
+	query := ""
+
+	// URL から検索パラメータの取得
+	q := r.URL.Query()
+	// query に値がある場合、値を取得
+	if q != nil {
+		query = q.Get("query")
+	}
+
+	// Goods を検索
+	goodsList := model.SearchGoods(query)
+
+	// 商品一覧画面に遷移
 	tmpl, err := template.ParseFiles("view/goodslist.html")
 	if err != nil {
 		log.Fatal(err)
 	}
-	tmpl.Execute(w, nil)
+	err = tmpl.Execute(w, goodsList)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 }
 
-// SearchGoods : Goods 検索／検索結果の表示
+// SearchGoods : POST メソッド, Goods 検索／検索結果の表示
 func SearchGoods(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	// リクエストの解析

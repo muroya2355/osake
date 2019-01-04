@@ -27,12 +27,9 @@ CREATE TABLE GOODS (
 	goods_name VARCHAR(100) NOT NULL,
 	class_id INTEGER NOT NULL REFERENCES CLASS(CLASS_ID),
 	maker_id INTEGER NOT NULL REFERENCES MAKER(MAKER_ID),
-	model_number VARCHAR(30) NOT NULL,
-	specs TEXT,
 	indicated_price INTEGER,
 	purchase_price NUMERIC,
 	stock INTEGER,
-	is_deleted BOOLEAN NOT NULL,
 	update_super_visor_id VARCHAR(30) NOT NULL,
 	update_date TIMESTAMP NOT NULL,
 	update_version_id BIGINT NOT NULL

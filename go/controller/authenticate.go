@@ -7,7 +7,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
-	"denki/go/model"
+	"github.com/muroya2355/osake/go/model"
 )
 
 // Login : GET ログインページの表示
@@ -17,6 +17,21 @@ func Login(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		log.Fatal(err)
 	}
 	tmpl.Execute(w, nil)
+}
+
+// Logout : GET ログアウト、ログインページにリダイレクト
+func Logout(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+
+	// クッキーの変更
+	cookie := http.Cookie{
+		Name:     "auth",
+		Value:    "",
+		HttpOnly: true,
+	}
+	http.SetCookie(w, &cookie)
+
+	// ログインページにリダイレクト
+	http.Redirect(w, r, "/login", 302)
 }
 
 // Authenticate : POST ユーザの認証
@@ -32,7 +47,16 @@ func Authenticate(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	if user.UserID != "" && user.Password == r.PostForm["password"][0] {
 		// 認証に成功した場合
 
-		http.Redirect(w, r, "/default", 301)
+		// クッキーの生成
+		cookie := http.Cookie{
+			Name:     "auth",
+			Value:    user.UserID,
+			HttpOnly: true,
+		}
+		http.SetCookie(w, &cookie)
+
+		// 商品一覧ページにリダイレクト
+		http.Redirect(w, r, "/list", 302)
 
 	} else {
 

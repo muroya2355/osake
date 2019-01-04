@@ -17,7 +17,7 @@
 				</tr>
 				<tr>
 					<td>商品名</td>
-					<td><input type="text" name="goodsname" value={{$goods.GoodsName}}></td>
+					<td><input type="text" id="goodsname" name="goodsname" value={{$goods.GoodsName}}></td>
 				</tr>
 				<tr>
 					<td>分類</td>
@@ -48,14 +48,6 @@
 					</td>
 				</tr>
 				<tr>
-					<td>型番</td>
-					<td><input type="text" name="modelnumber" value={{$goods.ModelNumber}}></td>
-				</tr>
-				<tr>
-					<td>スペック</td>
-					<td><input type="text" name="specs" value={{$goods.Specs}}></td>
-				</tr>
-				<tr>
 					<td>販売価格</td>
 					<td><input type="text" name="indicatedprice" value={{$goods.IndicatedPrice}}></td>
 				</tr>
@@ -68,23 +60,22 @@
 					<td><input type="text" name="stock" value={{$goods.Stock}}></td>
 				</tr>
 				<tr>
-					<td>削除フラグ</td>
-					<td>
-						<select name="isdeleted">
-							<option value="false" {{ if ne $goods.Deleted true }}selected{{ end }}></option>
-							<option value="true" {{ if $goods.Deleted }}selected{{ end }}>削除</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
 					<td><input type="submit" value="更新"></td>
 				</tr>
 			</table>
 		</form>
-		<form action="/deletegoods" method="POST">
+		<form action="/deletegoods" method="POST" onsubmit="return deleteChk()">
 			<input type="hidden" name="goodsid" value={{$goods.GoodsID}}>
 			<input type="submit" value="削除">
 		</form>
 	</div>
+	<script>
+		// 確認用のダイアログを表示
+		function deleteChk() {
+			// 商品名を入力させる
+			goodsname = window.prompt("確認用：商品名を入力してください", "");
+			return document.getElementById("goodsname").value==goodsname;
+		}
+	</script>
 </body>
 </html>

@@ -7,20 +7,14 @@
 <body>
 	<h1>商品一覧／検索画面</h1>
 	<div style="display:inline-flex">
-		<form action="/searchgoods" method="post">
+		<form action="/list" method="GET">
 			商品名
-			<input type="text" name="goodsname"/>
+			<input type="query" name="query" value=""/>
 			<input type="submit" value="検索"/>
 		</form>
 		&nbsp;
-		<form action="/searchgoods" method="post">
-			<input type="hidden" name="goodsname" value="">
+		<form action="/list" method="GET">
 			<input type="submit" value="一覧"/>
-		</form>
-	</div>
-	<div>
-		<form action="/inputgoods" method="get">
-			<input type="submit" value="追加">
 		</form>
 	</div>
 	<div>
@@ -31,11 +25,9 @@
 				<th>商品名</th>
 				<th>分類</th>
 				<th>メーカー</th>
-				<th>型番</th>
 				<th>販売価格</th>
 				<th>仕入れ値</th>
 				<th>在庫</th>
-				<th>削除フラグ</th>
 				<th></th>
 			</tr>
 		{{ range $name, $goods := . }}
@@ -44,15 +36,9 @@
 				<td>{{ $goods.GoodsName }}</td>
 				<td>{{ $goods.ClassName }}</td>
 				<td>{{ $goods.MakerName }}</td>
-				<td>{{ $goods.Specs }}</td>
 				<td>{{ $goods.IndicatedPrice }}</td>
 				<td>{{ $goods.PurchasePrice }}</td>
 				<td>{{ $goods.Stock }}</td>
-				{{ if $goods.Deleted }}
-				<td>削除</td>
-				{{ else }}
-				<td></td>
-				{{ end }}
 				<td>
 					<form action="/goodsdetail" method="post">
 						<input type="hidden" name="goodsid" value={{$goods.GoodsID}}>
@@ -63,6 +49,16 @@
 		{{ end }}
 		</table>
 		{{ end }}
+	</div>
+	<div>
+		<form action="/inputgoods" method="get">
+			<input type="submit" value="追加">
+		</form>
+	</div>
+	<div>
+		<form action="/logout" method="GET">
+			<input type="submit" value="ログアウト">
+		</form>
 	</div>
 </body>
 </html>

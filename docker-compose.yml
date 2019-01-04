@@ -1,47 +1,21 @@
-# docker-compose build
-# docker-compose up -d
-
 # docker-compose のバージョン
-version: '2'
+version: '3'
 
 # 各コンテナの情報
 services:
 
-#  # Data-Volume コンテナ
-#  postgres-data:
-#    # コンテナ名
-#    container_name: postgres-data
-#    # Dockerfile を指定
-#    build:
-#     context: .
-#     dockerfile: ./docker/postgres-data/Dockerfile
-#    # ホストOSのデータ共有先
-#    volumes:
-#      - .:/var/lib/postgres
-
   # postgres サービス
   postgres:
     # コンテナの名前
-    container_name: postgres
+    container_name: postgres-container
     # Dockerfile のディレクトリパス
     build:
       context: .
       dockerfile: ./docker/postgres/Dockerfile
-    # 外部に公開するポート
-    ports:
-      - "15432:5432"
-    # postgres 設定
-    environment:
-      - POSTGRES_USER=denki_user
-      - POSTGRES_PASSWORD=denki_user
-      - POSTGRES_DB=denki
-#    # postgres-data コンテナをpostgresコンテナにマウント
-#    volumes_from:
-#      - postgres-data
 
   # golang アプリケーション
-  denki:
-    container_name: denki
+  osake:
+    container_name: osake-container
     # postgres のコンテナとリンク
     depends_on:
       - postgres
@@ -51,12 +25,9 @@ services:
       dockerfile: ./docker/golang/Dockerfile
     ports:
       - "18080:8080"
-    # GOPATHを指定
-    environment:
-      - GOPATH=/go
     # ${GOPATH}/src をマウント
     volumes:
-      - ./go:/go/src/denki/go/
+      - ./go:/go/src/github.com/muroya2355/osake/go/
     # docker-compose run 実行時に実行されるコマンド
     command: go run main.go
     

@@ -1,15 +1,20 @@
 package controller
 
 import (
-	"denki/go/model"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/muroya2355/osake/go/model"
+	"github.com/muroya2355/osake/go/utils"
 
 	"github.com/julienschmidt/httprouter"
 )
 
 func DeleteGoods(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+
+	// クッキーの確認
+	utils.CheckCookie(w, r)
 
 	// フォームの解析
 	r.ParseForm()
@@ -24,5 +29,5 @@ func DeleteGoods(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	model.DeleteGoods(goodsID)
 
 	// 商品一覧画面にリダイレクト
-	http.Redirect(w, r, "/default", 301)
+	http.Redirect(w, r, "/list", 301)
 }

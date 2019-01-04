@@ -1,16 +1,21 @@
 package controller
 
 import (
-	"denki/go/model"
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/muroya2355/osake/go/model"
+	"github.com/muroya2355/osake/go/utils"
 
 	"github.com/julienschmidt/httprouter"
 )
 
 // InputGoods : Class と Goods の全検索、商品追加画面の表示
 func InputGoods(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+
+	// クッキーの確認
+	utils.CheckCookie(w, r)
 
 	// 全クラス、全メーカを格納する構造体
 	type Displayinputgoods struct {

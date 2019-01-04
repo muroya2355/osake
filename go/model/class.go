@@ -1,8 +1,9 @@
 package model
 
 import (
-	"denki/go/utils"
 	"log"
+
+	"github.com/muroya2355/osake/go/utils"
 )
 
 // Class : 分類

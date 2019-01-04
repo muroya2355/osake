@@ -1,17 +1,22 @@
 package controller
 
 import (
-	"denki/go/model"
 	"html/template"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/muroya2355/osake/go/model"
+	"github.com/muroya2355/osake/go/utils"
 
 	"github.com/julienschmidt/httprouter"
 )
 
 // GoodsDetail : 商品詳細情報の表示
 func GoodsDetail(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+
+	// クッキーの確認
+	utils.CheckCookie(w, r)
 
 	// 商品詳細用の構造体を定義
 	type DisplayGoodsDetail struct {
