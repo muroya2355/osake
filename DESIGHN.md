@@ -11,9 +11,9 @@
 * 商品削除機能
 
 # 画面遷移
-![画面遷移図](https://imgur.com/a/Mo8EjSj)
+![画面遷移図](./osake.png)
 # 内部設計
-![内部設計図](https://imgur.com/a/guZkCg6)
+![内部設計図](./osake_detail.png)
 
 # 機能詳細
 ## 管理者ログイン機能
