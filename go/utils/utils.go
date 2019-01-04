@@ -30,7 +30,7 @@ var Db *sql.DB
 func DbInit() {
 
 	var err error
-	Db, err = sql.Open("postgres", "host=postgres-container user=osake_user dbname=osake password=osake_user sslmode=disable")
+	Db, err = sql.Open("postgres", "host=postgres-container port=5432 user=osake_user dbname=osake password=osake_user sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}

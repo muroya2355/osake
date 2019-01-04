@@ -1,5 +1,5 @@
 # docker-compose のバージョン
-version: '3'
+version: '3.4'
 
 # 各コンテナの情報
 services:
@@ -14,8 +14,9 @@ services:
       dockerfile: ./docker/postgres/Dockerfile
 
   # golang アプリケーション
-  osake:
-    container_name: osake-container
+  # 開発環境用
+  osake_dev:
+    container_name: osake-dev-container
     # postgres のコンテナとリンク
     depends_on:
       - postgres
@@ -23,11 +24,24 @@ services:
     build:
       context: .
       dockerfile: ./docker/golang/Dockerfile
+      target: build_env
     ports:
       - "18080:8080"
     # ${GOPATH}/src をマウント
     volumes:
       - ./go:/go/src/github.com/muroya2355/osake/go/
     # docker-compose run 実行時に実行されるコマンド
-    command: go run main.go
-    
+    command: bash -c "go build -o osake && ./osake"
+
+  # golang アプリケーション
+  # 実行環境用
+  osake:
+    container_name: osake-container
+    depends_on:
+      - postgres
+    build:
+      context: .
+      dockerfile: ./docker/golang/Dockerfile
+    ports:
+      - "10080:8080"
+    command: /opt/osake/osake

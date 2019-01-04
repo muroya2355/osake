@@ -10,36 +10,13 @@
 * 商品詳細更新機能
 * 商品削除機能
 
-# 画面遷移
-![画面遷移図](./osake.png)
-# 内部設計
-![内部設計図](./osake_detail.png)
-
-# 機能詳細
-## 管理者ログイン機能
-* ログインに成功した際、セッションクッキー（"auth"）を生成し、ログインIDを登録
-* 各ハンドラでクッキーを確認。クッキーが未取得またはログインIDが空文字の時に、ログイン画面にリダイレクトす
-* クッキーはブラウザを閉じた際に削除される
-
-## 商品検索／一覧表示機能
-* 検索文字列 ⇔ 商品名 から商品を検索し情報を表示
-
 # データテーブル
 ## 管理者テーブル（SUPER_VISOR）
 | No | 論理名 | 物理名 | データ型(桁数) | PK | NOT NULL | 備考 |
 | :- | :- | :- | :- | :- | :- | :- |
 | 1 | 管理者ID | super_visor_id | VARCHAR(30) | 〇 | | |
 | 2 | パスワード | super_visor_password | VARCHAR(20) | | 〇 | |
-## 分類（CLASS）
-| No | 論理名 | 物理名 | データ型(桁数) | PK | NOT NULL | 備考 |
-| :- | :- | :- | :- | :- | :- | :- |
-| 1 | 分類ID | class_id | BIGINT | 〇 | | 固有の管理番号 |
-| 2 | 分類名 | class_name | VARCHAR(100) | | 〇 | |
-## メーカー（MAKER）
-| No | 論理名 | 物理名 | データ型(桁数) | PK | NOT NULL | 備考 |
-| :- | :- | :- | :- | :- | :- | :- |
-| 1 | メーカーID | class_id | BIGINT | 〇 | | 固有の管理番号 |
-| 2 | メーカー名 | class_name | VARCHAR(100) | | 〇 | |
+
 ## 商品（GOODS）
 | No | 論理名 | 物理名 | データ型(桁数) | PK | NOT NULL | 備考 |
 | :- | :- | :- | :- | :- | :- | :- |
@@ -53,6 +30,62 @@
 | 8 | 更新者ID | update_super_visor_id | VARCHAR(30) | | 〇 | |
 | 9 | 更新日時 | update_date | TIMESTAMP | | 〇 | |
 | 10 | 更新バージョンID | update_version_id | BIGINT | | 〇 |
+
+## 分類（CLASS）
+| No | 論理名 | 物理名 | データ型(桁数) | PK | NOT NULL | 備考 |
+| :- | :- | :- | :- | :- | :- | :- |
+| 1 | 分類ID | class_id | BIGINT | 〇 | | 固有の管理番号 |
+| 2 | 分類名 | class_name | VARCHAR(100) | | 〇 | |
+
+## メーカー（MAKER）
+| No | 論理名 | 物理名 | データ型(桁数) | PK | NOT NULL | 備考 |
+| :- | :- | :- | :- | :- | :- | :- |
+| 1 | メーカーID | class_id | BIGINT | 〇 | | 固有の管理番号 |
+| 2 | メーカー名 | class_name | VARCHAR(100) | | 〇 | |
+
+# 画面遷移
+![画面遷移図](./images/osake.png)
+# 内部設計
+![内部設計図](./images/osake_detail.png)
+
+# ディレクトリ階層
+```
+./go
+│
+├─main.go
+│
+├─controller
+│    ├─addgoods.go
+│    ├─authenticate.go
+│    ├─deletegoods.go
+│    ├─goodsdetail.go
+│    ├─inputgoods.go
+│    └─updategoods.go
+│
+├─model
+│    ├─class.go
+│    ├─goods.go
+│    ├─maker.go
+│    └─user.go
+│
+├─view
+│     ├─goodsdetail.html
+│     ├─goodslist.html
+│     ├─inputgoods.html
+│     └─login.html
+│
+└─utils
+     └─utils.go
+```
+
+# 機能詳細
+## 管理者ログイン機能
+* ログインに成功した際、セッションクッキー（"auth"）を生成し、ログインIDを登録
+* 各ハンドラでクッキーを確認。クッキーが未取得またはログインIDが空文字の時に、ログイン画面にリダイレクトす
+* クッキーはブラウザを閉じた際に削除される
+
+## 商品検索／一覧表示機能
+* 検索文字列 ⇔ 商品名 から商品を検索し情報を表示
 
 
 # アーキテクチャ構成
