@@ -15,7 +15,7 @@ services:
 
   # golang アプリケーション
   # 開発環境用
-  osake_dev:
+  osake-dev:
     container_name: osake-dev-container
     # postgres のコンテナとリンク
     depends_on:
@@ -42,6 +42,19 @@ services:
     build:
       context: .
       dockerfile: ./docker/golang/Dockerfile
+    command: sh -c "cd /usr/local/osake && ./osake"
+
+  # httpd サービス
+  httpd:
+    container_name: httpd-container
+    depends_on:
+      - postgres
+      - osake
+    build:
+      context: .
+      dockerfile: ./docker/httpd/Dockerfile
     ports:
-      - "10080:8080"
-    command: /opt/osake/osake
+      - "10080:80"
+    volumes:
+      # 設定ファイル (AJP転送先の設定のため)
+      - ./docker/httpd/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
