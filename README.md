@@ -36,7 +36,20 @@ $ docker ps -a
 → http://localhost:10080/
 - Docker Toolbox をインストールした場合 \
 → ` $ docker-machile ls ` で仮想マシンのIPアドレスを確認（例:192.168.99.100）\
-→ http://192.168.99.100:8080/
+→ http://192.168.99.100:10080/
+
+6. コンテナの停止
+
+&emsp;&emsp;&nbsp; `$ docker-compose up` を打ったターミナルで Ctrl+C、その後
+```
+$ docker-compose down
+```
+&emsp;&emsp;&nbsp; とするとコンテナが削除される。再び`$ docker-compose up` を打つとコンテナ起動
+
+7. コンテナイメージの削除
+```
+$ docker image rm osake_osake osake_osake-dev osake_postgres osake_httpd
+```
 
 # 機能一覧
 * 管理者ログイン／ログアウト機能
