@@ -1,64 +1,97 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>商品一覧／検索画面</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>商品一覧／検索画面</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 </head>
+
 <body>
-	<h1>商品一覧／検索画面</h1>
-	<div style="display:inline-flex">
-		<form action="/list" method="GET">
-			商品名
-			<input type="query" name="query" value=""/>
-			<input type="submit" value="検索"/>
-		</form>
-		&nbsp;
-		<form action="/list" method="GET">
-			<input type="submit" value="一覧"/>
-		</form>
-	</div>
-	<div>
-		{{ if . }}
-		<table border="1">
-			<tr>
-				<th>商品ID</th>
-				<th>商品名</th>
-				<th>分類</th>
-				<th>メーカー</th>
-				<th>販売価格</th>
-				<th>仕入れ値</th>
-				<th>在庫</th>
-				<th></th>
-			</tr>
-		{{ range $name, $goods := . }}
-			<tr>
-				<td>{{ $goods.GoodsID }}</td>
-				<td>{{ $goods.GoodsName }}</td>
-				<td>{{ $goods.ClassName }}</td>
-				<td>{{ $goods.MakerName }}</td>
-				<td>{{ $goods.IndicatedPrice }}</td>
-				<td>{{ $goods.PurchasePrice }}</td>
-				<td>{{ $goods.Stock }}</td>
-				<td>
-					<form action="/goodsdetail" method="post">
-						<input type="hidden" name="goodsid" value={{$goods.GoodsID}}>
-						<input type="submit" value="詳細">
-					</form>
-				</td>
-			</tr>
-		{{ end }}
-		</table>
-		{{ end }}
-	</div>
-	<div>
-		<form action="/inputgoods" method="get">
-			<input type="submit" value="追加">
-		</form>
-	</div>
-	<div>
-		<form action="/logout" method="GET">
-			<input type="submit" value="ログアウト">
-		</form>
-	</div>
+  <h1>商品一覧／検索画面</h1>
+
+  <div class="container pull-left">
+    <div class="panel panel-default">
+      <div class="panel-heading">商品リスト</div>
+      <div class="panel-body">
+
+        <div style="display:inline-flex">
+          <form class="form-inline" action="/list" method="GET">
+            <div class="form-group">
+              <label class="control-label">商品名:</label>
+              <input class="form-control" type="query" name="query" value="" />
+              <button class="btn btn-default">検索</button>
+            </div>
+          </form>
+          &nbsp;
+          <form class="form-inline" action="/list" method="GET">
+            <button class="btn btn-default">一覧</button>
+          </form>
+        </div>
+
+        {{ if . }}
+        <table class="table table-bordered text-nowrap">
+          <thead>
+            <tr>
+              <th>商品ID</th>
+              <th>商品名</th>
+              <th>分類</th>
+              <th>メーカー</th>
+              <th>販売価格</th>
+              <th>仕入れ値</th>
+              <th>在庫</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{ range $name, $goods := . }}
+            <tr>
+              <td>{{ $goods.GoodsID }}</td>
+              <td>{{ $goods.GoodsName }}</td>
+              <td>{{ $goods.ClassName }}</td>
+              <td>{{ $goods.MakerName }}</td>
+              <td>{{ $goods.IndicatedPrice }}</td>
+              <td>{{ $goods.PurchasePrice }}</td>
+              <td>{{ $goods.Stock }}</td>
+              <td align="center">
+                <form action="/goodsdetail" method="post">
+                  <input type="hidden" name="goodsid" value={{$goods.GoodsID}}>
+                  <button class="btn btn-default">詳細</button>
+                </form>
+              </td>
+            </tr>
+            {{ end }}
+          </tbody>
+        </table>
+        {{ end }}
+
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="container pull-left">
+    <div class="panel panel-default">
+      <div class="panel-heading">商品追加フォーム</div>
+      <div class="panel-body">
+        <form action="/inputgoods" method="get">
+          <button class="btn btn-default">追加</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="container pull-left">
+    <div class="panel panel-default">
+      <div class="panel-heading">ログアウトフォーム</div>
+      <div class="panel-body">
+        <form action="/logout" method="GET">
+          <button class="btn btn-default">ログアウト</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
 </body>
+
 </html>

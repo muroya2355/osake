@@ -1,81 +1,110 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>商品詳細画面</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>商品詳細画面</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 </head>
+
 <body>
-	<h1>商品詳細画面</h1>
-	<div>
-		<form action="/updategoods" method="post">
-			{{ $goods := .Goods }}
-			<table>
-				<tr>
-					<td>商品ID</td>
-					<td>{{ $goods.GoodsID }}</td>
-					<input type="hidden" name="goodsid" value={{$goods.GoodsID}}>
-				</tr>
-				<tr>
-					<td>商品名</td>
-					<td><input type="text" id="goodsname" name="goodsname" value={{$goods.GoodsName}}></td>
-				</tr>
-				<tr>
-					<td>分類</td>
-					<td>
-						<select name="classid">
-						{{ range $index, $class := .Classes }}
-							{{ if eq $goods.ClassID $class.ClassID }}
-							<option value={{ $class.ClassID }} selected>{{ $class.ClassName }}</option>
-							{{ else }}
-							<option value={{ $class.ClassID }}>{{ $class.ClassName }}</option>
-							{{ end }}
-						{{ end }}
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>メーカー</td>
-					<td>
-						<select name="makerid">
-						{{ range $index, $maker := .Makers }}
-							{{ if eq $goods.MakerID $maker.MakerID }}
-							<option value={{ $maker.MakerID }} selected>{{ $maker.MakerName }}</option>
-							{{ else }}
-							<option value={{ $maker.MakerID }}>{{ $maker.MakerName }}</option>
-							{{ end }}
-						{{ end }}
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>販売価格</td>
-					<td><input type="text" name="indicatedprice" value={{$goods.IndicatedPrice}}></td>
-				</tr>
-				<tr>
-					<td>仕入れ値</td>
-					<td><input type="text" name="purchaseprice" value={{$goods.PurchasePrice}}></td>
-				</tr>
-				<tr>
-					<td>在庫</td>
-					<td><input type="text" name="stock" value={{$goods.Stock}}></td>
-				</tr>
-				<tr>
-					<td><input type="submit" value="更新"></td>
-				</tr>
-			</table>
-		</form>
-		<form action="/deletegoods" method="POST" onsubmit="return deleteChk()">
-			<input type="hidden" name="goodsid" value={{$goods.GoodsID}}>
-			<input type="submit" value="削除">
-		</form>
-	</div>
-	<script>
-		// 確認用のダイアログを表示
-		function deleteChk() {
-			// 商品名を入力させる
-			goodsname = window.prompt("確認用：商品名を入力してください", "");
-			return document.getElementById("goodsname").value==goodsname;
-		}
-	</script>
+  <h1>商品詳細画面</h1>
+  <div class="container pull-left">
+    <div class="panel panel-default">
+      <div class="panel-heading">商品情報更新フォーム</div>
+      <div class="panel-body">
+
+        <form class="form-horizontal" action="/updategoods" method="post">
+          {{ $goods := .Goods }}
+          <div class="form-group">
+            <label class="cotrol-label col-sm-2">商品ID</label>
+            <div class="col-sm-10">
+              {{ $goods.GoodsID }}
+              <input class="form-control" type="hidden" name="goodsid" value={{$goods.GoodsID}}>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="cotrol-label col-sm-2">商品名</label>
+            <div class="col-sm-10">
+              <input class="form-control" type="text" id="goodsname" name="goodsname" value={{$goods.GoodsName}}>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="cotrol-label col-sm-2">分類</label>
+            <div class="col-sm-10">
+              <select class="form-control" name="classid">
+                {{ range $index, $class := .Classes }}
+                {{ if eq $goods.ClassID $class.ClassID }}
+                <option value={{ $class.ClassID }} selected>{{ $class.ClassName }}</option>
+                {{ else }}
+                <option value={{ $class.ClassID }}>{{ $class.ClassName }}</option>
+                {{ end }}
+                {{ end }}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="cotrol-label col-sm-2">メーカー</label>
+            <div class="col-sm-10">
+              <select class="form-control" name="makerid">
+                {{ range $index, $maker := .Makers }}
+                {{ if eq $goods.MakerID $maker.MakerID }}
+                <option value={{ $maker.MakerID }} selected>{{ $maker.MakerName }}</option>
+                {{ else }}
+                <option value={{ $maker.MakerID }}>{{ $maker.MakerName }}</option>
+                {{ end }}
+                {{ end }}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="cotrol-label col-sm-2">販売価格</label>
+            <div class="col-sm-10">
+              <input class="form-control" type="text" name="indicatedprice" value={{$goods.IndicatedPrice}}>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="cotrol-label col-sm-2">仕入れ値</label>
+            <div class="col-sm-10">
+              <input class="form-control" type="text" name="purchaseprice" value={{$goods.PurchasePrice}}>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="cotrol-label col-sm-2">在庫</label>
+            <div class="col-sm-10">
+              <input class="form-control" type="text" name="stock" value={{$goods.Stock}}>
+            </div>
+          </div>
+          <button class="btn btn-default">更新</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="container pull-left">
+    <div class="panel panel-default">
+      <div class="panel-heading">商品削除フォーム</div>
+      <div class="panel-body">
+
+        <form action="/deletegoods" method="POST" onsubmit="return deleteChk()">
+          <input type="hidden" name="goodsid" value={{$goods.GoodsID}}>
+          <button class="btn btn-default">削除</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <script>
+    // 確認用のダイアログを表示
+    function deleteChk() {
+      // 商品名を入力させる
+      goodsname = window.prompt("確認用：商品名を入力してください", "");
+      return document.getElementById("goodsname").value == goodsname;
+    }
+  </script>
 </body>
+
 </html>
