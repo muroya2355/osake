@@ -10,6 +10,12 @@ import (
 	"github.com/muroya2355/osake/go/utils"
 )
 
+// Index : ログインページにリダイレクト
+func Index(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	// ログインページにリダイレクト
+	http.Redirect(w, r, "/login", 302)
+}
+
 // メイン関数
 func main() {
 
@@ -20,6 +26,7 @@ func main() {
 	router := httprouter.New()
 
 	// ハンドラ関数の登録
+	router.GET("/", Index)                                // ログインページにリダイレクト
 	router.GET("/login", controller.Login)                // ログインページの表示
 	router.GET("/logout", controller.Logout)              // ログアウト
 	router.POST("/authenticate", controller.Authenticate) // ログイン認証

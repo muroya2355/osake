@@ -3,6 +3,41 @@
 # 概要
 お酒の小売店が商品の在庫管理を行う、という想定の商品管理アプリケーション
 
+# インストール方法
+1. Docker または Docker Toolbox をインストール、起動する
+
+2. git リポジトリをクローン、作業フォルダに移動
+```
+$ git clone https://github.com/muroya2355/osake.git
+$ cd osake
+$ ls
+```
+&emsp;&emsp;&nbsp; docker-compose.yml があることを確認
+
+3. Docker イメージをビルド
+```
+$ docker-compose build
+$ docker image ls
+```
+&emsp;&emsp;&nbsp; osake_osake, osake_osake-dev, osake_postgres, osake_httpd が作成されていることを確認
+
+4. Docker コンテナを起動
+```
+$ docker-compose up
+```
+&emsp;&emsp;&nbsp; 別のターミナルを立ち上げて
+```
+$ docker ps -a
+```
+&emsp;&emsp;&nbsp; osake_* イメージに対応する、4つのコンテナが起動 (Up) していることを確認
+
+5. ブラウザからコンテナにアクセス
+- Docker をインストールした場合\
+→ http://localhost:10080/
+- Docker Toolbox をインストールした場合 \
+→ ` $ docker-machile ls ` で仮想マシンのIPアドレスを確認（例:192.168.99.100）\
+→ http://192.168.99.100:8080/
+
 # 機能一覧
 * 管理者ログイン／ログアウト機能
 * 商品検索／一覧表示機能
@@ -81,7 +116,8 @@
 # 機能詳細
 ## 管理者ログイン機能
 * ログインに成功した際、セッションクッキー（"auth"）を生成し、ログインIDを登録
-* 各ハンドラでクッキーを確認。クッキーが未取得またはログインIDが空文字の時に、ログイン画面にリダイレクトす
+* 各ハンドラでクッキーを確認する。
+* クッキーが未取得またはログインIDが空文字の時に、ログイン画面にリダイレクトする
 * クッキーはブラウザを閉じた際に削除される
 
 ## 商品検索／一覧表示機能
@@ -89,8 +125,16 @@
 
 
 # アーキテクチャ構成
-* go による Webサーバ
-* postgres による DB サーバ
-## Web サーバ
 
-## DB サーバ
+Dockerコンテナを使って ↓ を作成する
+* Apache によるリバースプロキシ
+* goバイナリ による Webサーバ（開発環境・実行環境）
+* postgreSQL による DB サーバ
+
+![コンテナ構成図](./images/docker.png)
+
+## Apache
+
+## golang
+
+## PostgreSQL

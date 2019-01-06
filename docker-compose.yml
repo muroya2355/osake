@@ -25,8 +25,6 @@ services:
       context: .
       dockerfile: ./docker/golang/Dockerfile
       target: build_env
-    ports:
-      - "18080:8080"
     # ${GOPATH}/src をマウント
     volumes:
       - ./go:/go/src/github.com/muroya2355/osake/go/
@@ -36,7 +34,7 @@ services:
   # golang アプリケーション
   # 実行環境用
   osake:
-    container_name: osake-container
+    container_name: osake-run-container
     depends_on:
       - postgres
     build:
@@ -55,6 +53,8 @@ services:
       dockerfile: ./docker/httpd/Dockerfile
     ports:
       - "10080:80"
+      - "10081:81"
     volumes:
-      # 設定ファイル (AJP転送先の設定のため)
+      # 設定ファイル (リバースプロキシ設定のため)
       - ./docker/httpd/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./docker/httpd/conf/extra/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
