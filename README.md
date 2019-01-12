@@ -37,7 +37,7 @@ $ docker ps -a
 - Docker Toolbox をインストールした場合 \
 → ` $ docker-machile ls ` で仮想マシンのIPアドレスを確認（例:192.168.99.100）\
 → http://192.168.99.100:10080/
-
+- ログインID：a　パスワード：password1 でログインできる
 6. コンテナの停止
 
 &emsp;&emsp;&nbsp; `$ docker-compose up` を打ったターミナルで Ctrl+C、その後
