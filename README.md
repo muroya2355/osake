@@ -92,9 +92,10 @@ $ docker image rm osake_osake osake_osake-dev osake_postgres osake_httpd
 | 2 | メーカー名 | class_name | VARCHAR(100) | | 〇 | |
 
 # 画面遷移
-![画面遷移図](./images/osake.png)
+<img src="./images/osake.png" width=70%>
+
 # 内部設計
-![内部設計図](./images/osake_detail.png)
+<img src="./images/osake_detail.png" width=70%>
 
 # ディレクトリ階層
 ```
@@ -139,6 +140,8 @@ $ docker image rm osake_osake osake_osake-dev osake_postgres osake_httpd
 
 # アーキテクチャ構成
 
+## Web3層
+
 Dockerコンテナを使って ↓ を作成する
 * Apache によるリバースプロキシ
 * goバイナリ による Webサーバ（開発環境・実行環境）
@@ -146,8 +149,23 @@ Dockerコンテナを使って ↓ を作成する
 
 ![コンテナ構成図](./images/docker.png)
 
-## Apache
+### Apache
 
-## golang
+### golang
 
-## PostgreSQL
+### PostgreSQL
+
+## ログ分析基盤
+
+![ログ分析基盤構成図](./images/logger.png)
+
+Dockerコンテナを使って ↓ を作成する
+* ログ収集：fluentd
+* ログ格納：elasticsearch
+* 可視化：Kibana
+
+### fluentd
+
+### elasticsearch
+
+### Kibana
