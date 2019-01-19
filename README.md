@@ -7,49 +7,58 @@
 1. Docker または Docker Toolbox をインストール、起動する
 
 2. git リポジトリをクローン、作業フォルダに移動
-```
-$ git clone https://github.com/muroya2355/osake.git
-$ cd osake
-$ ls
-```
-&emsp;&emsp;&nbsp; docker-compose.yml があることを確認
+	```
+	$ git clone https://github.com/muroya2355/osake.git
+	$ cd osake
+	$ ls
+	```
+	docker-compose.yml があることを確認
 
 3. Docker イメージをビルド
-```
-$ docker-compose build
-$ docker image ls
-```
-&emsp;&emsp;&nbsp; osake_osake, osake_osake-dev, osake_postgres, osake_httpd が作成されていることを確認
+	```
+	$ docker-compose build
+	$ docker image ls
+	```
+	osake_osake, osake_osake-dev, osake_postgres, osake_httpd が作成されていることを確認
 
 4. Docker コンテナを起動
-```
-$ docker-compose up
-```
-&emsp;&emsp;&nbsp; 別のターミナルを立ち上げて
-```
-$ docker ps -a
-```
-&emsp;&emsp;&nbsp; osake_* イメージに対応する、4つのコンテナが起動 (Up) していることを確認
+	```
+	$ docker-compose up
+	```
+	別のターミナルを立ち上げて
+	```
+	$ docker ps -a
+	```
+	osake_* イメージに対応する、4つのコンテナが起動 (Up) していることを確認
 
 5. ブラウザからコンテナにアクセス
-- Docker をインストールした場合\
-→ http://localhost:10080/
-- Docker Toolbox をインストールした場合 \
-→ ` $ docker-machile ls ` で仮想マシンのIPアドレスを確認（例:192.168.99.100）\
-→ http://192.168.99.100:10080/
-- ログインID：a　パスワード：password1 でログインできる
+	* osake アプリケーション
+
+		- Docker をインストールした場合\
+		→ http://localhost:10080/
+
+		- Docker Toolbox をインストールした場合 \
+		→ ` $ docker-machile ls ` で仮想マシンのIPアドレスを確認（例:192.168.99.100）\
+		→ http://192.168.99.100:10080/
+	
+		- ログインID：a　パスワード：password1 でログインできる
+
+	* Kibana によるログ監視
+
+		- http://localhost:15601/ または http://192.168.199.15601/ にアクセスしてログ状況を表示できる
+
 6. コンテナの停止
 
-&emsp;&emsp;&nbsp; `$ docker-compose up` を打ったターミナルで Ctrl+C、その後
-```
-$ docker-compose down
-```
-&emsp;&emsp;&nbsp; とするとコンテナが削除される。再び`$ docker-compose up` を打つとコンテナ起動
+	`$ docker-compose up` を打ったターミナルで Ctrl+C、その後
+	```
+	$ docker-compose down
+	```
+	とするとコンテナが削除される。再び`$ docker-compose up` を打つとコンテナ起動
 
 7. コンテナイメージの削除
-```
-$ docker image rm osake_osake osake_osake-dev osake_postgres osake_httpd
-```
+	```
+	$ docker image rm osake_osake osake_osake-dev osake_postgres osake_httpd
+	```
 
 # 機能一覧
 * 管理者ログイン／ログアウト機能
