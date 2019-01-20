@@ -73,10 +73,7 @@ services:
     volumes:
       # 設定ファイル (リバースプロキシ設定のため)
       - ./docker/httpd/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
-      - ./docker/httpd/conf/extra/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
       - ./docker/httpd/conf/extra/httpd-ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf
-      - ./docker/httpd/cert.pem:/etc/letsencrypt/live/www.osaketen.com/cert.pem # ファイルは各自で用意／所有者・パーミッションを確認
-      - ./docker/httpd/privkey.pem:/etc/letsencrypt/live/www.osaketen.com/privkey.pem # ファイルは各自で用意／所有者・パーミッションを確認
     logging:
       driver: "fluentd"
       options:
