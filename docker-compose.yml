@@ -1,49 +1,49 @@
-# docker-compose �̃o�[�W����
+# docker-compose のバージョン
 version: '3.4'
 
-# �e�R���e�i�̏��
+# 各コンテナの情報
 services:
 
-# osake �A�v���P�[�V�����p
+# osake アプリケーション用
 
-  # postgres �T�[�r�X
+  # postgres サービス
   postgres:
-    # �R���e�i�̖��O
+    # コンテナの名前
     container_name: postgres-container
     depends_on:
       - fluentd
-    # Dockerfile �̃f�B���N�g���p�X
+    # Dockerfile のディレクトリパス
     build:
       context: .
       dockerfile: ./docker/postgres/Dockerfile
-    # ���O���W�p�ݒ�
+    # ログ収集用設定
     logging:
-      # ���M���O�h���C�o�� fluentd ��
+      # ロギングドライバを fluentd に
       driver: "fluentd"
       options:
-        # fluentd �̃A�h���X�E���J�|�[�g��w��
-        fluentd-address: "192.168.99.100:24224"
+        # fluentd のアドレス・公開ポートを指定
+        fluentd-address: "localhost:24224"
 
-  # golang �A�v���P�[�V����
-  # �J�����p
+  # golang アプリケーション
+  # 開発環境用
   osake-dev:
     container_name: osake-dev-container
-    # postgres �̃R���e�i�ƃ����N
+    # postgres のコンテナとリンク
     depends_on:
       - postgres
-    # Dockerfile ��w��
+    # Dockerfile を指定
     build:
       context: .
       dockerfile: ./docker/golang/Dockerfile
       target: build_env
-    # ${GOPATH}/src ��}�E���g
+    # ${GOPATH}/src をマウント
     volumes:
       - ./go:/go/src/github.com/muroya2355/osake/go/
-    # docker-compose run ���s���Ɏ��s�����R�}���h
+    # docker-compose run 実行時に実行されるコマンド
     command: bash -c "go build -o osake && ./osake"
 
-  # golang �A�v���P�[�V����
-  # ���s���p
+  # golang アプリケーション
+  # 実行環境用
   osake:
     container_name: osake-run-container
     depends_on:
@@ -56,9 +56,9 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: "192.168.99.100:24224"
+        fluentd-address: "localhost:24224"
 
-  # httpd �T�[�r�X
+  # httpd サービス
   httpd:
     container_name: httpd-container
     depends_on:
@@ -71,18 +71,18 @@ services:
     ports:
       - "443:443"
     volumes:
-      # �ݒ�t�@�C�� (���o�[�X�v���L�V�ݒ�̂���)
+      # 設定ファイル (リバースプロキシ設定のため)
       - ./docker/httpd/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
       - ./docker/httpd/conf/extra/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
       - ./docker/httpd/conf/extra/httpd-ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf
-      - ./docker/httpd/conf/server.crt:/usr/local/apache2/conf/server.crt # �t�@�C���͊e���ŗp��
-      - ./docker/httpd/conf/server.key:/usr/local/apache2/conf/server.key # �t�@�C���͊e���ŗp��
+      - ./docker/httpd/conf/server.crt:/usr/local/apache2/conf/server.crt # ファイルは各自で用意
+      - ./docker/httpd/conf/server.key:/usr/local/apache2/conf/server.key # ファイルは各自で用意
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: "192.168.99.100:24224"
+        fluentd-address: "localhost:24224"
 
-  # nginx �T�[�r�X
+  # nginx サービス
   nginx:
     container_name: nginx-container
     depends_on:
@@ -94,9 +94,9 @@ services:
       - "80:80"
     volumes:
       - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
-      - ./docker/nginx/htpasswd:/etc/nginx/.htpasswd # �t�@�C���͊e���ŗp��
+      - ./docker/nginx/htpasswd:/etc/nginx/.htpasswd # ファイルは各自で用意
 
-# ���O���W�p
+# ログ収集用
 
   elasticsearch:
     container_name: elasticsearch-container
