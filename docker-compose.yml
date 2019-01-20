@@ -70,6 +70,7 @@ services:
       dockerfile: ./docker/httpd/Dockerfile
     ports:
       - "443:443"
+      - "80:80"
     volumes:
       # 設定ファイル (リバースプロキシ設定のため)
       - ./docker/httpd/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
