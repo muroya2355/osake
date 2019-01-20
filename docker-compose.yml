@@ -90,7 +90,7 @@ services:
       context: .
       dockerfile: ./docker/nginx/Dockerfile
     ports:
-      - "80:80"
+      - "5601:80"
     volumes:
       - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
       - ./docker/nginx/htpasswd:/etc/nginx/.htpasswd # ファイルは各自で用意
