@@ -1,49 +1,49 @@
-# docker-compose ‚Ìƒo[ƒWƒ‡ƒ“
+# docker-compose ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³
 version: '3.4'
 
-# ŠeƒRƒ“ƒeƒi‚Ìî•ñ
+# å„ã‚³ãƒ³ãƒ†ãƒŠã®æƒ…å ±
 services:
 
-# osake ƒAƒvƒŠƒP[ƒVƒ‡ƒ“—p
+# osake ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ç”¨
 
-  # postgres ƒT[ƒrƒX
+  # postgres ã‚µãƒ¼ãƒ“ã‚¹
   postgres:
-    # ƒRƒ“ƒeƒi‚Ì–¼‘O
+    # ã‚³ãƒ³ãƒ†ãƒŠã®åå‰
     container_name: postgres-container
     depends_on:
       - fluentd
-    # Dockerfile ‚ÌƒfƒBƒŒƒNƒgƒŠƒpƒX
+    # Dockerfile ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹
     build:
       context: .
       dockerfile: ./docker/postgres/Dockerfile
-    # ƒƒOûW—pİ’è
+    # ãƒ­ã‚°åé›†ç”¨è¨­å®š
     logging:
-      # ƒƒMƒ“ƒOƒhƒ‰ƒCƒo‚ğ fluentd ‚É
+      # ãƒ­ã‚®ãƒ³ã‚°ãƒ‰ãƒ©ã‚¤ãƒã‚’ fluentd ã«
       driver: "fluentd"
       options:
-        # fluentd ‚ÌƒAƒhƒŒƒXEŒöŠJƒ|[ƒg‚ğw’è
-        fluentd-address: "192.168.99.100:24224"
+        # fluentd ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ãƒ»å…¬é–‹ãƒãƒ¼ãƒˆã‚’æŒ‡å®š
+        fluentd-address: "localhost:24224"
 
-  # golang ƒAƒvƒŠƒP[ƒVƒ‡ƒ“
-  # ŠJ”­ŠÂ‹«—p
+  # golang ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³
+  # é–‹ç™ºç’°å¢ƒç”¨
   osake-dev:
     container_name: osake-dev-container
-    # postgres ‚ÌƒRƒ“ƒeƒi‚ÆƒŠƒ“ƒN
+    # postgres ã®ã‚³ãƒ³ãƒ†ãƒŠã¨ãƒªãƒ³ã‚¯
     depends_on:
       - postgres
-    # Dockerfile ‚ğw’è
+    # Dockerfile ã‚’æŒ‡å®š
     build:
       context: .
       dockerfile: ./docker/golang/Dockerfile
       target: build_env
-    # ${GOPATH}/src ‚ğƒ}ƒEƒ“ƒg
+    # ${GOPATH}/src ã‚’ãƒã‚¦ãƒ³ãƒˆ
     volumes:
       - ./go:/go/src/github.com/muroya2355/osake/go/
-    # docker-compose run Às‚ÉÀs‚³‚ê‚éƒRƒ}ƒ“ƒh
+    # docker-compose run å®Ÿè¡Œæ™‚ã«å®Ÿè¡Œã•ã‚Œã‚‹ã‚³ãƒãƒ³ãƒ‰
     command: bash -c "go build -o osake && ./osake"
 
-  # golang ƒAƒvƒŠƒP[ƒVƒ‡ƒ“
-  # ÀsŠÂ‹«—p
+  # golang ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³
+  # å®Ÿè¡Œç’°å¢ƒç”¨
   osake:
     container_name: osake-run-container
     depends_on:
@@ -56,9 +56,9 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: "192.168.99.100:24224"
+        fluentd-address: "localhost:24224"
 
-  # httpd ƒT[ƒrƒX
+  # httpd ã‚µãƒ¼ãƒ“ã‚¹
   httpd:
     container_name: httpd-container
     depends_on:
@@ -69,22 +69,34 @@ services:
       context: .
       dockerfile: ./docker/httpd/Dockerfile
     ports:
-      - "80:80"
       - "443:443"
     volumes:
-      # İ’èƒtƒ@ƒCƒ‹ (ƒŠƒo[ƒXƒvƒƒLƒVİ’è‚Ì‚½‚ß)
+      # è¨­å®šãƒ•ã‚¡ã‚¤ãƒ« (ãƒªãƒãƒ¼ã‚¹ãƒ—ãƒ­ã‚­ã‚·è¨­å®šã®ãŸã‚)
       - ./docker/httpd/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
       - ./docker/httpd/conf/extra/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
       - ./docker/httpd/conf/extra/httpd-ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf
-      - ./docker/httpd/conf/server.crt:/usr/local/apache2/conf/server.crt
-      - ./docker/httpd/conf/server.key:/usr/local/apache2/conf/server.key
+      - ./docker/httpd/conf/server.crt:/usr/local/apache2/conf/server.crt # ãƒ•ã‚¡ã‚¤ãƒ«ã¯å„è‡ªã§ç”¨æ„
+      - ./docker/httpd/conf/server.key:/usr/local/apache2/conf/server.key # ãƒ•ã‚¡ã‚¤ãƒ«ã¯å„è‡ªã§ç”¨æ„
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: "192.168.99.100:24224"
+        fluentd-address: "localhost:24224"
 
+  # nginx ã‚µãƒ¼ãƒ“ã‚¹
+  nginx:
+    container_name: nginx-container
+    depends_on:
+      - kibana
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - "5601:80"
+    volumes:
+      - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/htpasswd:/etc/nginx/.htpasswd # ãƒ•ã‚¡ã‚¤ãƒ«ã¯å„è‡ªã§ç”¨æ„
 
-# ƒƒOûW—p
+# ãƒ­ã‚°åé›†ç”¨
 
   elasticsearch:
     container_name: elasticsearch-container
@@ -97,8 +109,6 @@ services:
   kibana:
     container_name: kibana-container
     image: kibana:5.6
-    ports:
-      - "5601:5601"
     environment:
       ELASTICSEARCH_URL: "http://elasticsearch:9200"
     depends_on:
