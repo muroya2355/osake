@@ -75,8 +75,8 @@ services:
       - ./docker/httpd/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
       - ./docker/httpd/conf/extra/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
       - ./docker/httpd/conf/extra/httpd-ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf
-      - ./docker/httpd/conf/server.crt:/usr/local/apache2/conf/server.crt # ファイルは各自で用意
-      - ./docker/httpd/conf/server.key:/usr/local/apache2/conf/server.key # ファイルは各自で用意
+      - /etc/letsencrypt/live/www.osaketen.com/cert.pem:/etc/letsencrypt/live/www.osaketen.com/cert.pem # ファイルは各自で用意
+      - /etc/letsencrypt/live/www.osaketen.com/privkey.pem:/etc/letsencrypt/live/www.osaketen.com/privkey.pem # ファイルは各自で用意
     logging:
       driver: "fluentd"
       options:
