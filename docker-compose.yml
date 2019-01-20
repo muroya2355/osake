@@ -110,7 +110,7 @@ services:
     container_name: kibana-container
     image: kibana:5.6
     environment:
-      ELASTICSEARCH_URL: "http://elasticsearch:9200"
+      ELASTICSEARCH_URL: "http://elasticsearch-container:9200"
     depends_on:
       - elasticsearch
 
