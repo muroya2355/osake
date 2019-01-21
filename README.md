@@ -7,8 +7,11 @@
 1. Docker または Docker Toolbox をインストール、起動する
 
 2. docker-compose.yml を書き換える
+	- windows 以外のOSの場合
+		- 文字コードを UTF-8 に変換
+		
 	- Docker をインストールした場合\
-		→ "192.168.99.100" 表記を "localhost" に書き換え
+		- "192.168.99.100" 表記を "localhost" に書き換え
 
 	- Docker Toolbox をインストールした場合 \
 		→ ` $ docker-machile ls ` で仮想マシンのIPアドレスを確認 \
