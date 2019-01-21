@@ -22,7 +22,7 @@ services:
       driver: "fluentd"
       options:
         # fluentd のアドレス・公開ポートを指定
-        fluentd-address: "localhost:24224"
+        fluentd-address: "192.168.99.100:14224"
 
   # golang アプリケーション
   # 開発環境用
@@ -56,7 +56,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: "localhost:24224"
+        fluentd-address: "192.168.99.100:14224"
 
   # httpd サービス
   httpd:
@@ -69,31 +69,17 @@ services:
       context: .
       dockerfile: ./docker/httpd/Dockerfile
     ports:
-      - "443:443"
-      - "80:80"
+      - "10080:80"
+      - "10081:81"
     volumes:
       # 設定ファイル (リバースプロキシ設定のため)
       - ./docker/httpd/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
       - ./docker/httpd/conf/extra/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
-      - ./docker/httpd/conf/extra/httpd-ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: "localhost:24224"
+        fluentd-address: "192.168.99.100:14224"
 
-  # nginx サービス
-  nginx:
-    container_name: nginx-container
-    depends_on:
-      - kibana
-    build:
-      context: .
-      dockerfile: ./docker/nginx/Dockerfile
-    ports:
-      - "5601:80"
-    volumes:
-      - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
-      - ./docker/nginx/htpasswd:/etc/nginx/.htpasswd # ファイルは各自で用意
 
 # ログ収集用
 
@@ -103,13 +89,15 @@ services:
     ports:
       - "9200:9200"
     volumes:
-      - ./docker/elasticsearch/jvm.options:/usr/share/elasticsearch/config/jvm.options
+      - ./docker/elasticsearch/jvm.options:/usr/share/elasticsearch/config/jvm.ptions
   
   kibana:
     container_name: kibana-container
     image: kibana:5.6
+    ports:
+      - "15601:5601"
     environment:
-      ELASTICSEARCH_URL: "http://elasticsearch-container:9200"
+      ELASTICSEARCH_URL: "http://elasticsearch:9200"
     depends_on:
       - elasticsearch
 
@@ -119,7 +107,7 @@ services:
      context: .
      dockerfile: ./docker/fluentd/Dockerfile
     ports:
-      - "24224:24224"
+      - "14224:24224"
       - "24220:24220"
       - "24224:24224/udp"
     depends_on:
