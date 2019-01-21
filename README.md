@@ -6,9 +6,17 @@
 # インストール方法
 1. Docker または Docker Toolbox をインストール、起動する
 
+2. docker-compose.yml を書き換える
+	- Docker をインストールした場合\
+		→ "192.168.99.100" 表記を "localhost" に書き換え
+
+	- Docker Toolbox をインストールした場合 \
+		→ ` $ docker-machile ls ` で仮想マシンのIPアドレスを確認 \
+		→ "192.168.99.100" 表記を "[ IPアドレス ]" に書き換え
+
 2. git リポジトリをクローン、作業フォルダに移動
 	```
-	$ git clone https://github.com/muroya2355/osake.git
+	$ git clone -b local-dev https://github.com/muroya2355/osake.git
 	$ cd osake
 	$ ls
 	```
@@ -23,9 +31,11 @@
 
 4. Docker コンテナを起動
 	```
-	$ docker-compose up
+	$ docker-compose up -d
 	```
-	別のターミナルを立ち上げて
+	一回エラーを吐いて終了するので、もう一回 `` $ docker-compose up -d``
+	
+	その後
 	```
 	$ docker ps -a
 	```
@@ -48,16 +58,20 @@
 		- http://localhost:15601/ または http://192.168.199.15601/ にアクセスしてログ状況を表示できる
 
 6. コンテナの停止
+	
+	```
+	$ docker-compose stop
+	```
+	を打つとコンテナが停止する。その後
 
-	`$ docker-compose up` を打ったターミナルで Ctrl+C、その後
 	```
 	$ docker-compose down
 	```
-	とするとコンテナが削除される。再び`$ docker-compose up` を打つとコンテナ起動
+	を打つとコンテナが削除される。再び`$ docker-compose up` を打つとコンテナ起動
 
 7. コンテナイメージの削除
 	```
-	$ docker image rm osake_osake osake_osake-dev osake_postgres osake_httpd
+	$ docker image rm osake_osake osake_osake-dev osake_postgres osake_httpd ...
 	```
 
 # 機能一覧
