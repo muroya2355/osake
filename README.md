@@ -5,6 +5,8 @@
 
 https://www.osaketen.com
 
+ID : a , パスワード : password1 でログインできる
+
 ローカルマシンへのインストール方法は local-dev ブランチを参照のこと
 # 機能一覧
 * 管理者ログイン／ログアウト機能
@@ -30,9 +32,9 @@ Dockerコンテナを使って ↓ を作成する
 
 ## ログ分析基盤
 
-![ログ分析基盤構成図](./images/logger.png)
-
 Dockerコンテナを使って ↓ を作成する
 * ログ収集：fluentd
 * ログ格納：elasticsearch
 * 可視化：Kibana
+
+![ログ分析基盤構成図](./images/logger.png)
