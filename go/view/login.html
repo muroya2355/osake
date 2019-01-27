@@ -12,7 +12,13 @@
     <div class="panel panel-default">
       <div class="panel-heading">ログインフォーム</div>
       <div class="panel-body">
-
+        {{ if . }}
+        <div>
+          {{ range $name, $errmsg := . }}
+          <font color="#ff4500">{{ $errmsg }}</font></br>
+          {{ end }}
+        {{ end }}
+        </div>
         <form class="form-horizontal" action="/authenticate" method="post">
           <div class="form-group">
             <label class="cotrol-label col-sm-2">ユーザID:</label>

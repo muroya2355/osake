@@ -36,9 +36,8 @@ func main() {
 	router.POST("/goodsdetail", controller.GoodsDetail)   // 商品詳細画面の表示
 	router.POST("/updategoods", controller.UpdateGoods)   // 商品情報の更新
 	router.POST("/deletegoods", controller.DeleteGoods)   // 商品情報の削除
-	//router.POST("/searchgoods", controller.SearchGoods)   // 商品の検索
 
-	// サーバの生成、マルギプレクサの登録
+	// サーバの生成、マルチプレクサの登録
 	err := http.ListenAndServe(":8080", router)
 	if err != nil {
 		log.Fatal(err)
