@@ -29,5 +29,5 @@ func DeleteGoods(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	model.DeleteGoods(goodsID)
 
 	// 商品一覧画面にリダイレクト
-	http.Redirect(w, r, "/list", 301)
+	http.Redirect(w, r, "/goodslist", 301)
 }
