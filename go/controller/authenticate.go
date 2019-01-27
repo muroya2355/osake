@@ -78,7 +78,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 			http.SetCookie(w, &cookie)
 
 			// 商品一覧ページにリダイレクト
-			http.Redirect(w, r, "/list", 302)
+			http.Redirect(w, r, "/goodslist", 302)
 
 		} else {
 			// 認証に失敗した場合

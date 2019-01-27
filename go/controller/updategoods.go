@@ -68,10 +68,11 @@ func UpdateGoods(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	if flag {
 		// DBに接続、商品追加
 		goods.UpdateGoods()
+		// 商品一覧画面にリダイレクト
+		http.Redirect(w, r, "/goodslist", 301)
 	} else {
-		http.Redirect(w, r, "/list", 301)
+		// 入力エラー時
+		http.Redirect(w, r, "/goods/"+r.PostForm["goodsid"][0], 301)
 	}
 
-	// 商品一覧画面にリダイレクト
-	http.Redirect(w, r, "/list", 301)
 }

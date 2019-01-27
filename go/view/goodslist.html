@@ -16,7 +16,7 @@
       <div class="panel-body">
 
         <div style="display:inline-flex">
-          <form class="form-inline" action="/list" method="GET">
+          <form class="form-inline" action="/goodslist" method="GET">
             <div class="form-group">
               <label class="control-label">商品名:</label>
               <input class="form-control" type="query" name="query" value="" />
@@ -24,7 +24,7 @@
             </div>
           </form>
           &nbsp;
-          <form class="form-inline" action="/list" method="GET">
+          <form class="form-inline" action="/goodslist" method="GET">
             <button class="btn btn-default">一覧</button>
           </form>
         </div>
@@ -54,8 +54,8 @@
               <td>{{ $goods.PurchasePrice }}</td>
               <td>{{ $goods.Stock }}</td>
               <td align="center">
-                <form action="/goodsdetail" method="post">
-                  <input type="hidden" name="goodsid" value={{$goods.GoodsID}}>
+                <form action="/goods/{{$goods.GoodsID}}" method="get">
+                  <!--<input type="hidden" name="goodsid" value={{$goods.GoodsID}}>-->
                   <button class="btn btn-default">詳細</button>
                 </form>
               </td>

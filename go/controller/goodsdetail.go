@@ -32,10 +32,11 @@ func GoodsDetail(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	displayGoodsDetail.Makers = model.SelectAllMaker()
 
 	// フォームの解析
-	r.ParseForm()
+	//r.ParseForm()
 
 	// GoodsIDの取得
-	goodsid, err := strconv.Atoi(r.PostForm["goodsid"][0])
+	//goodsid, err := strconv.Atoi(r.PostForm["goodsid"][0])
+	goodsid, err := strconv.Atoi(p.ByName("id"))
 	if err != nil {
 		log.Fatal(err)
 	}
