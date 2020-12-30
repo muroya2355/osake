@@ -1,5 +1,5 @@
 # docker-compose のバージョン
-version: '3.4'
+version: '3.7'
 
 # 各コンテナの情報
 services:
@@ -59,7 +59,7 @@ services:
       context: .
       dockerfile: ./docker/httpd/Dockerfile
     ports:
-      - "10080:80"
+      - "80:80"
       - "443:443"
     volumes:
       # 設定ファイル (リバースプロキシ設定のため)

@@ -33,24 +33,24 @@ func IsHankakuAlphaNum(parameter string) bool {
 }
 
 // エラーメッセージ一覧
-func Error_login() string {
+func ErrorLogin() string {
 	return "ログインに失敗しました。ユーザID、パスワードを確認してください。"
 }
-func Error_required1(a string) string {
+func ErrorRequired1(a string) string {
 	return a + "を入力してください。"
 }
-func Error_required2(a, b string) string {
+func ErrorRequired2(a, b string) string {
 	return a + "には" + b + "を入力してください。"
 }
-func Error_length(a string, from, to int) string {
+func ErrorLength(a string, from, to int) string {
 	return a + "には " + strconv.Itoa(from) + " 文字以上、" + strconv.Itoa(to) + " 文字以下で入力してください。"
 }
-func Error_select(a string) string {
+func ErrorSelect(a string) string {
 	return a + "を選択してください。"
 }
-func Error_lock() string {
+func ErrorLock() string {
 	return "該当の商品は他のユーザに更新されました。再度、商品詳細画面を表示してから、更新業務を行ってください。"
 }
-func Error_system() string {
+func ErrorSystem() string {
 	return "システムエラーが発生しました。"
 }

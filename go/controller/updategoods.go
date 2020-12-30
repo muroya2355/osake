@@ -31,19 +31,19 @@ func UpdateGoods(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	flag := true
 	if utils.IsEmpty(r.PostForm["goodsname"][0]) {
 		flag = false
-		Errlist = append(Errlist, utils.Error_required1("ユーザID"))
+		Errlist = append(Errlist, utils.ErrorRequired1("ユーザID"))
 	}
 	if utils.IsEmpty(r.PostForm["indicatedprice"][0]) {
 		flag = false
-		Errlist = append(Errlist, utils.Error_required1("ユーザID"))
+		Errlist = append(Errlist, utils.ErrorRequired1("ユーザID"))
 	}
 	if utils.IsEmpty(r.PostForm["purchaseprice"][0]) {
 		flag = false
-		Errlist = append(Errlist, utils.Error_required1("ユーザID"))
+		Errlist = append(Errlist, utils.ErrorRequired1("ユーザID"))
 	}
 	if utils.IsEmpty(r.PostForm["stock"][0]) {
 		flag = false
-		Errlist = append(Errlist, utils.Error_required1("ユーザID"))
+		Errlist = append(Errlist, utils.ErrorRequired1("ユーザID"))
 	}
 
 	// 追加用の Goods の生成、パラメータの代入

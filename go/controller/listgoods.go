@@ -5,11 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/muroya2355/osake/go/utils"
-
-	"github.com/muroya2355/osake/go/model"
-
 	"github.com/julienschmidt/httprouter"
+	"github.com/muroya2355/osake/go/model"
+	"github.com/muroya2355/osake/go/utils"
 )
 
 // GoodsList : GETメソッド, Goods 検索画面の表示

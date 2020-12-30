@@ -5,6 +5,8 @@ WORKDIR /go/src/github.com/muroya2355/osake/go/
 
 RUN go get github.com/julienschmidt/httprouter
 RUN go get github.com/lib/pq
+RUN go get github.com/coreos/go-oidc
+RUN go get golang.org/x/oauth2
 
 ADD ./go .
 ENV CGO_ENABLED 0

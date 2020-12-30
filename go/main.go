@@ -12,8 +12,9 @@ import (
 
 // Index : ログインページにリダイレクト
 func Index(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+
 	// ログインページにリダイレクト
-	http.Redirect(w, r, "/login", 302)
+	http.Redirect(w, r, "/goodslist", 302)
 }
 
 // メイン関数
@@ -26,16 +27,15 @@ func main() {
 	router := httprouter.New()
 
 	// ハンドラ関数の登録
-	router.GET("/", Index)                                // ログインページにリダイレクト
-	router.GET("/login", controller.Login)                // ログインページの表示
-	router.GET("/logout", controller.Logout)              // ログアウト
-	router.POST("/authenticate", controller.Authenticate) // ログイン認証
-	router.GET("/goodslist", controller.GoodsList)        // 商品リスト画面の表示
-	router.GET("/inputgoods", controller.InputGoods)      // 商品追加画面の表示
-	router.POST("/addgoods", controller.AddGoods)         // 商品の追加
-	router.GET("/goods/:id", controller.GoodsDetail)      // 商品詳細画面の表示
-	router.POST("/updategoods", controller.UpdateGoods)   // 商品情報の更新
-	router.POST("/deletegoods", controller.DeleteGoods)   // 商品情報の削除
+	router.GET("/", Index)                              // ログインページにリダイレクト
+	router.GET("/callback", utils.Callback)             // ログイン後のリダイレクト
+	router.GET("/logout", utils.Logout)                 // ログイン後のリダイレクト
+	router.GET("/goodslist", controller.GoodsList)      // 商品リスト画面の表示
+	router.GET("/inputgoods", controller.InputGoods)    // 商品追加画面の表示
+	router.POST("/addgoods", controller.AddGoods)       // 商品の追加
+	router.GET("/goods/:id", controller.GoodsDetail)    // 商品詳細画面の表示
+	router.POST("/updategoods", controller.UpdateGoods) // 商品情報の更新
+	router.POST("/deletegoods", controller.DeleteGoods) // 商品情報の削除
 
 	// サーバの生成、マルチプレクサの登録
 	err := http.ListenAndServe(":8080", router)
