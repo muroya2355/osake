@@ -1,5 +1,5 @@
 # 開発環境用 golang イメージ
-FROM golang:1.9 AS build_env
+FROM golang:1.15.6 AS build_env
 
 WORKDIR /go/src/github.com/muroya2355/osake/go/
 

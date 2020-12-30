@@ -6,7 +6,15 @@
 # インストール方法
 1. Docker または Docker Toolbox をインストール、起動する
 
-2. docker-compose.yml を書き換える
+1. git リポジトリをクローン、作業フォルダに移動
+	```
+	$ git clone -b local-dev https://github.com/muroya2355/osake.git
+	$ cd osake
+	$ ls
+	```
+	docker-compose.yml があることを確認
+
+1. docker-compose.yml を書き換える
 	- windows 以外のOSの場合
 		- 文字コードを UTF-8 に変換
 		
@@ -17,22 +25,18 @@
 		→ ` $ docker-machile ls ` で仮想マシンのIPアドレスを確認 \
 		→ "192.168.99.100" 表記を "[ IPアドレス ]" に書き換え
 
-2. git リポジトリをクローン、作業フォルダに移動
-	```
-	$ git clone -b local-dev https://github.com/muroya2355/osake.git
-	$ cd osake
-	$ ls
-	```
-	docker-compose.yml があることを確認
+1. docker-compose 実行
 
-3. Docker イメージをビルド
+	Docker イメージをビルド
+	
 	```
 	$ docker-compose build
 	$ docker image ls
 	```
 	osake_osake, osake_osake-dev, osake_postgres, osake_httpd が作成されていることを確認
 
-4. Docker コンテナを起動
+	Docker コンテナを起動
+	
 	```
 	$ docker-compose up -d
 	```
@@ -44,7 +48,8 @@
 	```
 	osake_* イメージに対応する、4つのコンテナが起動 (Up) していることを確認
 
-5. ブラウザからコンテナにアクセス
+
+1. ブラウザからコンテナにアクセス
 	* osake アプリケーション
 
 		- Docker をインストールした場合\
@@ -56,23 +61,21 @@
 	
 		- ログインID：a　パスワード：password1 でログインできる
 
-	* Kibana によるログ監視
-
-		- http://localhost:15601/ または http://192.168.199.15601/ にアクセスしてログ状況を表示できる
-
-6. コンテナの停止
+1. コンテナの停止
 	
 	```
-	$ docker-compose stop
+	$ docker-compose -f docker-compose_webapp.yml stop
+	$ docker-compose -f docker-compose_logging.yml stop
 	```
 	を打つとコンテナが停止する。その後
 
 	```
-	$ docker-compose down
+	$ docker-compose -f docker-compose_webapp.yml down
+	$ docker-compose -f docker-compose_logging.yml down
 	```
 	を打つとコンテナが削除される。再び`$ docker-compose up` を打つとコンテナ起動
 
-7. コンテナイメージの削除
+1. コンテナイメージの削除
 	```
 	$ docker image rm osake_osake osake_osake-dev osake_postgres osake_httpd ...
 	```
@@ -181,7 +184,7 @@ Dockerコンテナを使って ↓ を作成する
 
 ### PostgreSQL
 
-## ログ分析基盤
+## ログ分析基盤（作成中）
 
 ![ログ分析基盤構成図](./images/logger.png)
 
@@ -195,3 +198,18 @@ Dockerコンテナを使って ↓ を作成する
 ### elasticsearch
 
 ### Kibana
+
+1. FLKのコンテナ起動
+
+	docker-compose_logging.yml に対して同じ操作を実行
+
+	```
+	$ docker-compose -f docker-compose_logging.yml build
+	$ docker image ls
+	$ docker-compose -f docker-compose_logging.yml up -d
+	$ docker ps -a
+	```
+
+	* Kibana によるログ監視
+
+		- http://localhost:15601/ または http://192.168.199.100:15601/ にアクセスしてログ状況を表示できる

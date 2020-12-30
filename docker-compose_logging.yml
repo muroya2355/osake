@@ -4,17 +4,26 @@ version: '3.4'
 # 各コンテナの情報
 services:
 
+
 # osake アプリケーション用
 
   # postgres サービス
   postgres:
     # コンテナの名前
     container_name: postgres-container
+    depends_on:
+      - fluentd
     # Dockerfile のディレクトリパス
     build:
       context: .
       dockerfile: ./docker/postgres/Dockerfile
-
+    # ログ収集用設定
+    logging:
+      # ロギングドライバを fluentd に
+      driver: "fluentd"
+      options:
+        # fluentd のアドレス・公開ポートを指定
+        fluentd-address: "192.168.99.100:24224"
 
   # golang アプリケーション
   # 開発環境用
@@ -43,11 +52,15 @@ services:
     container_name: osake-run-container
     depends_on:
       - postgres
+      - fluentd
     build:
       context: .
       dockerfile: ./docker/golang/Dockerfile
     command: sh -c "cd /usr/local/osake && ./osake"
-
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: "192.168.99.100:24224"
 
   # httpd サービス
   httpd:
@@ -55,14 +68,51 @@ services:
     depends_on:
       - postgres
       - osake
+      - fluentd
     build:
       context: .
       dockerfile: ./docker/httpd/Dockerfile
     ports:
-      - "10080:80"
+      - "80:80"
       - "443:443"
     volumes:
       # 設定ファイル (リバースプロキシ設定のため)
       - ./docker/httpd/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
       - ./docker/httpd/conf/extra/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
       - ./docker/httpd/conf/extra/httpd-ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: "192.168.99.100:24224"
+
+  # ログ収集用
+
+  elasticsearch:
+    container_name: elasticsearch-container
+    image: elasticsearch:5.6-alpine
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./docker/elasticsearch/jvm.options:/usr/share/elasticsearch/config/jvm.ptions
+  
+  kibana:
+    container_name: kibana-container
+    image: kibana:5.6
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_URL: "http://elasticsearch:9200"
+    depends_on:
+      - elasticsearch
+
+  fluentd:
+    container_name: fluentd-container
+    build:
+     context: .
+     dockerfile: ./docker/fluentd/Dockerfile
+    ports:
+      - "24224:24224"
+      - "24220:24220"
+      - "24224:24224/udp"
+    depends_on:
+      - elasticsearch
