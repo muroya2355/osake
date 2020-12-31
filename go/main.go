@@ -37,9 +37,12 @@ func main() {
 	router.POST("/updategoods", controller.UpdateGoods) // 商品情報の更新
 	router.POST("/deletegoods", controller.DeleteGoods) // 商品情報の削除
 
+	router.ServeFiles("/view/*filepath", http.Dir("view"))
+
 	// サーバの生成、マルチプレクサの登録
 	err := http.ListenAndServe(":8080", router)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 }

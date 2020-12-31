@@ -7,10 +7,6 @@
 
 -- テーブルの作成
 -- \i [[filepath]]
-CREATE TABLE SUPER_VISOR (
-	super_visor_id VARCHAR(30) PRIMARY KEY,
-	super_visor_password VARCHAR(20) NOT NULL
-);
 
 CREATE TABLE CLASS (
 	class_id BIGINT PRIMARY KEY,
