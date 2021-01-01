@@ -23,6 +23,9 @@ services:
         DB_PASSWORD: password
         KEYCLOAK_USER: admin
         KEYCLOAK_PASSWORD: password
+      volumes:
+        - ./docker/keycloak/work:/tmp/work
+        - ./docker/keycloak/themes/testapp.v3:/opt/jboss/keycloak/themes/testapp.v3
       ports:
         - 18080:8080
       depends_on:
